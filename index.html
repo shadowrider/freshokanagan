@@ -1,11 +1,17 @@
 <!doctype html>
+<html>
 <head>
   <meta charset="utf-8">
   <title>FreshOkanagan</title>
   <meta name="description" content="My Parse App">
   <meta name="viewport" content="width=device-width">
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="//www.parsecdn.com/js/parse-1.2.2.min.js"></script>
+
+  <link rel=STYLESHEET href="css/foundation.min.css">
+  <link rel=STYLESHEET href="css/normalize.css">
+  <link rel=STYLESHEET href="css/style.css">
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="http://www.parsecdn.com/js/parse-1.2.2.min.js"></script>
 </head>
 
 <body>
@@ -26,6 +32,11 @@
 
     <div style="display:none" class="success">
       <p>We've also just created your first object using the following code:</p>
+
+        <div class="glyph">
+            <div class="fs1" aria-hidden="true" data-icon="&#xe003;"></div>
+            <input type="text" readonly="readonly" value="&amp;#xe003;" />
+        </div>
       
         <code>
           var TestObject = Parse.Object.extend("TestObject");<br/>
