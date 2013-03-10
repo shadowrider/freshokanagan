@@ -4,7 +4,26 @@
   <meta charset="utf-8">
   <title>Fresh Okanagan</title>
   <meta name="description" content="Fresh Okanagan">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- iPhone ICON -->
+    <link href="/img/apple-touch-icon-57x57.png" sizes="57x57" rel="apple-touch-icon-precomposed">
+    <!-- iPad ICON-->
+    <link href="/img/apple-touch-icon-72x72.png" sizes="72x72" rel="apple-touch-icon-precomposed">
+    <!-- iPhone (Retina) ICON-->
+    <link href="/img/apple-touch-icon-114x114.png" sizes="114x114" rel="apple-touch-icon-precomposed">
+    <!-- iPad (Retina) ICON-->
+    <link href="/img/apple-touch-icon-144x144.png" sizes="144x144" rel="apple-touch-icon-precomposed">
+    <!-- iPad (portrait) SPLASHSCREEN-->
+    <link href="/img/apple-touch-startup-image-768x1004.png" media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
+    <!-- iPad (landscape) SPLASHSCREEN-->
+    <link href="/img/apple-touch-startup-image-748x1024.png" media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
+    <!-- iPad (Retina, portrait) SPLASHSCREEN-->
+    <link href="/img/apple-touch-startup-image-1536x2008.png" media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    <!-- iPad (Retina, landscape) SPLASHSCREEN-->
+    <link href="/img/apple-touch-startup-image-1496x2048.png" media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
 
   <link rel=STYLESHEET href="css/normalize.css">
   <link rel=STYLESHEET href="css/foundation.min.css">
@@ -30,16 +49,40 @@
       </header>
       <div class="main">
           <section class="filters" role="complementary">
-            <form>
 
-            </form>
           </section>
           <section class="map-area" role="map">
               <div id="map"></div>
               <button class="add-place"><span class="icon-plus"></span></button>
           </section>
       </div>
+
   </div>
+  <div class="subsection">
+      <div class="header">
+          <button class="small button log-in">Close</button>
+      </div>
+      <div>
+          <form>
+              <legend>Setup your food stand!</legend>
+              <div class="profile__pic-wrap">
+                  <img class="profile__pic" src="http://placekitten.com/300/300">
+              </div>
+              <div class="profile__name">
+                  <p>Myroslav</p>
+                  <p>Pomazan</p>
+              </div>
+              <div>
+                  <label>Pictures</label>
+              </div>
+              <div>
+                  <label>What are you selling?</label>
+                  <textarea></textarea>
+              </div>
+          </form>
+      </div>
+  </div>
+
 
   <script type="text/javascript">
     Parse.initialize("S8glxzOcLDwTgXQyfUZyg4Rm4znbNmBxzSbfHgpI", "LPS4XPWUjfIcNRgpfxoqbkWqybyW9Odfs205mwbn");
@@ -48,6 +91,29 @@
         $('.show-filters').on('click', function(e) {
             $('html').toggleClass('menu-open');
         });
+
+        $('.log-in').on('click', function(e) {
+            $('html').toggleClass('sub-open');
+        });
+
+        var addMarkersOnTheMap = function(locations) {
+            locations.forEach(function(location) {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(location.get('lat'), location.get('long')),
+                    animation: google.maps.Animation.DROP,
+                    map: map
+                });
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<h5>'+ location.get('name') +'</h5>' +
+                            '<p>'+ location.get('description') + '</p>'
+                });
+
+                google.maps.event.addListener(marker, 'click', function() {
+                    infowindow.open(map, marker);
+                });
+            });
+        };
 
         var mapOptions = {
             center: new google.maps.LatLng(49.883611, -119.493333),
@@ -80,36 +146,16 @@
             });
         }
 
-        var addMarkersOnTheMap = function(locations) {
-            locations.forEach(function(location) {
-                new google.maps.Marker({
-                    position: location.position,
-                    animation: google.maps.Animation.DROP,
-                    map: map,
-                    title: "location.name"
-                });
-            });
-        };
+        col.MapLocation.fetch({
+            success: function (data) {
+                addMarkersOnTheMap(data);
+            }
+        });
 
         window.addEventListener('load', function() {
             new FastClick(document.body);
         }, false);
     })();
-  </script>
-  <script type="text/javascript"> // Harley's don't TOUCH!
-      $(document).ready(function(){
-          col.MapLocation.fetch({
-              success: function (data) {
-                  console.log(data); // #DEV
-                  console.log(data.models[data.length-1].attributes); // #DEV
-              }
-          });
-
-//        col.MapLocation.create(
-//            { lat: 98, long: 74, city: 'Vancouver',  }
-//        );
-
-      });
   </script>
 </body>
 
