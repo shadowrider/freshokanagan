@@ -16,14 +16,6 @@
     <link href="/img/apple-touch-icon-114x114.png" sizes="114x114" rel="apple-touch-icon-precomposed">
     <!-- iPad (Retina) ICON-->
     <link href="/img/apple-touch-icon-144x144.png" sizes="144x144" rel="apple-touch-icon-precomposed">
-    <!-- iPad (portrait) SPLASHSCREEN-->
-    <link href="/img/apple-touch-startup-image-768x1004.png" media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
-    <!-- iPad (landscape) SPLASHSCREEN-->
-    <link href="/img/apple-touch-startup-image-748x1024.png" media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
-    <!-- iPad (Retina, portrait) SPLASHSCREEN-->
-    <link href="/img/apple-touch-startup-image-1536x2008.png" media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-    <!-- iPad (Retina, landscape) SPLASHSCREEN-->
-    <link href="/img/apple-touch-startup-image-1496x2048.png" media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
 
   <link rel=STYLESHEET href="css/normalize.css">
   <link rel=STYLESHEET href="css/foundation.min.css">
@@ -34,7 +26,6 @@
   <script src="http://www.parsecdn.com/js/parse-1.2.2.min.js"></script>
   <script src="scripts/models.js"></script>
   <script src="scripts/api.js"></script>
-  <script src="scripts/facebook_init.js"></script>
   <script src="vendor/fastclick/fastclick.js"></script>
   <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvjmMxm6ATH92dAC_L60M13_u8AHbi2D8&sensor=false">
@@ -50,7 +41,18 @@
       </header>
       <div class="main">
           <section class="filters" role="complementary">
-
+              <form class="search-box">
+                  <span class="prefix icon-magnifying-glass"></span>
+                  <input type="search">
+                  <input type="submit" style="display: none">
+              </form>
+              <h3>Food types</h3>
+              <label for="checkbox1" class="checkbox"><input type="checkbox" id="checkbox1"><span class="custom checkbox"></span> Meat</label>
+              <label for="checkbox2" class="checkbox"><input type="checkbox" id="checkbox2"><span class="custom checkbox"></span> Vegetables</label>
+              <label for="checkbox3" class="checkbox"><input type="checkbox" id="checkbox3"><span class="custom checkbox"></span> Fruits</label>
+              <label for="checkbox4" class="checkbox"><input type="checkbox" id="checkbox4"><span class="custom checkbox"></span> Crafts</label>
+              <label for="checkbox5" class="checkbox"><input type="checkbox" id="checkbox5"><span class="custom checkbox"></span> Miscellaneous</label>
+              <img src="img/Pin.png">
           </section>
           <section class="map-area" role="map">
               <div id="map"></div>
@@ -73,8 +75,10 @@
                   <p class="profile__fname">Myroslav</p>
                   <p class="profile__lname">Pomazan</p>
               </div>
-              <label>Company Name</label>
-              <input type="text" placeholder="Tomatho Co.">
+              <ul class="button-group">
+                  <li><a href="#" class="small button">Consumer</a></li>
+                  <li><a href="#" class="small button">Producer</a></li>
+              </ul>
               <p>
                   <label>Pictures</label>
                   <img src="http://placekitten.com/50/50">
@@ -96,39 +100,47 @@
     Parse.initialize("S8glxzOcLDwTgXQyfUZyg4Rm4znbNmBxzSbfHgpI", "LPS4XPWUjfIcNRgpfxoqbkWqybyW9Odfs205mwbn");
 
     (function() {
+
         $('.show-filters').on('click', function(e) {
             $('html').toggleClass('menu-open');
         });
 
-        $('.profile').on('click', function(e) {
-            if(!Parse.User.current()) {
+        $('.profile').off('click').on('click', function(e) {
+            if(!Parse.User.current() && $('.facebook-login').length === 0) {
                 $('.subsection').append('<div class="facebook-login">' +
-                        '<h4>Join local </h4>' +
+                        '<h1>Get. <span style="color: #5DA423">Fresh.</span> Now.</h1>' +
                         '<button class="uibutton confirm log-in">Log In with Facebook</button>' +
                         '</div>');
-            } else {
-
+                $('.log-in').off('click').on('click', function(e) {
+                    facebook.login(function(data) {
+                        $('.facebook-login').remove();
+                        $('.main-wrapper .profile').remove();
+                        $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
+                        $('.subsection .profile').addClass('success').text('Save');
+                        $('.profile__pic').attr('src', data.img_url);
+                        $('.profile__fname').text(data.first_name);
+                        $('.profile__lname').text(data.last_name);
+                    });
+                });
             }
             $('html').toggleClass('sub-open');
         });
 
-        if(Parse.User.current()) {
-            facebook.get_data(function(data) {
-                $('.main-wrapper .profile').remove();
-                $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src=""></span>');
-            });
-        }
-
         $('.log-in').on('click', function(e) {
             facebook.login(function(data) {
-                $('.facebook-login').remove();
-                $('.profile__pic').attr('src', data.img_url);
-                $('.profile__fname').text(data.first_name);
-                $('.profile__lname').text(data.last_name);
+                    $('.facebook-login').remove();
+                    $('.main-wrapper .profile').remove();
+                    $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
+                    $('.subsection .profile').addClass('success').text('Save');
+                    $('.profile__pic').attr('src', data.img_url);
+                    $('.profile__fname').text(data.first_name);
+                    $('.profile__lname').text(data.last_name);
+                });
             });
-        });
 
         var addMarkersOnTheMap = function(locations) {
+            var infowindow = new google.maps.InfoWindow({});
+
             locations.forEach(function(location) {
                 var marker = new google.maps.Marker({
                     position: new google.maps.LatLng(location.get('lat'), location.get('long')),
@@ -136,12 +148,9 @@
                     map: map
                 });
 
-                var infowindow = new google.maps.InfoWindow({
-                    content: '<h5>'+ location.get('name') +'</h5>' +
-                            '<p>'+ location.get('description') + '</p>'
-                });
-
                 google.maps.event.addListener(marker, 'click', function() {
+                    infowindow.setContent('<h5>'+ location.get('name') +'</h5>' +
+                            '<p>'+ location.get('description') + '</p>');
                     infowindow.open(map, marker);
                 });
             });
@@ -151,7 +160,8 @@
             center: new google.maps.LatLng(49.883611, -119.493333),
             zoom: 12,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false
+            mapTypeControl: false,
+            streetViewControl: false
         };
 
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
@@ -189,20 +199,8 @@
         }, false);
     })();
   </script>
-    <script>
-        var reader = new FileReader();
-        var self = this;
+  <script src="scripts/facebook_init.js"></script>
 
-        reader.onload = (function(f) {
-            return function(e) {
-                self.set({filename: f.name});
-                self.set({data: e.target.result});
-                if (_.isFunction(callback)) callback(self);
-            };
-        })(file);
-
-        reader.readAsDataURL(file);
-    </script>
 </body>
 
 </html>

@@ -1,13 +1,30 @@
 facebook = {};
 //$(document).ready = function () {
-    window.fbAsyncInit = function() {
-        Parse.FacebookUtils.init({
+    window.fbAsyncInit = function(callback) {
+      Parse.FacebookUtils.init({
             appId      : 526141380770766, // Facebook App ID
             channelUrl : 'http://www.freshokanagan.com', // Channel File
             status     : true, // check login status
             cookie     : true, // enable cookies to allow Parse to access the session
             xfbml      : true  // parse XFBML
         });
+
+      FB.getLoginStatus(function(response) {
+        if(response.status === 'connected') {
+          facebook.get_data(function(data) {
+            $('.facebook-login').remove();
+            $('.main-wrapper .profile').remove();
+            $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
+            $('.subsection .profile').addClass('success').text('Save');
+            $('.profile__pic').attr('src', data.img_url);
+            $('.profile__fname').text(data.first_name);
+            $('.profile__lname').text(data.last_name);
+            $('.profile').off('click').on('click', function(e) {
+                $('html').toggleClass('sub-open');
+            });
+          });
+        }
+      }, true);
     };
 
     (function(d, debug){
@@ -19,25 +36,44 @@ facebook = {};
     }(document, /*debug*/ false));
 //};
 
-facebook.login = function () {
+facebook.login = function (callback) {
+  if(!Parse.User.current()) {
     Parse.FacebookUtils.logIn(null, {
-        success: function(user) {
-            if (!user.existed()) {
-                facebook.get_data();
-            } else {
-                facebook.get_data();
-            }
-        },
-        error: function(user, error) {
-            alert("User cancelled the Facebook login or did not fully authorize.");
-        }
+      success: function(user) {
+        facebook.get_data(function(data) {
+            $('.facebook-login').remove();
+            $('.main-wrapper .profile').remove();
+            $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
+            $('.subsection .profile').addClass('success').text('Save');
+            $('.profile__pic').attr('src', data.img_url);
+            $('.profile__fname').text(data.first_name);
+            $('.profile__lname').text(data.last_name);
+            $('.profile').off('click').on('click', function(e) {
+              $('html').toggleClass('sub-open');
+            });
+        });
+      },
+      error: function(user, error) {
+        alert("User cancelled the Facebook login or did not fully authorize.");
+      }
     });
+  } else {
+    facebook.get_data(function(data) {
+      $('.facebook-login').remove();
+      $('.main-wrapper .profile').remove();
+      $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
+      $('.subsection .profile').addClass('success').text('Save');
+      $('.profile__pic').attr('src', data.img_url);
+      $('.profile__fname').text(data.first_name);
+      $('.profile__lname').text(data.last_name);
+    });
+  }
 };
 
 facebook.get_data = function (callback) {
    var facebook_data = {};
    FB.api('/me', function(response) {
-       response.img_url = 'http://graph.facebook.com/' + response.username + '/picture'
+       response.img_url = 'http://graph.facebook.com/' + response.username + '/picture?type=normal';
        callback(response);
    });
 };

@@ -8,7 +8,9 @@ html, body, .main-wrapper, .main {
 }
 
 .header {
-    background-color: rgba(255,255,255, .75);
+    background-color: rgba(255,255,255, .5);
+    box-shadow: 0 1px 5px rgba(0,0,0, .3);
+    -moz-box-shadow: 0 1px 5px rgba(0,0,0, .3);
 
     position: absolute;
     top: 0;
@@ -79,7 +81,11 @@ html, body, .main-wrapper, .main {
 
 .filters {
     background-color: #777;
+    background-image: url('noisy_net.png');
+    box-shadow: inset -10px 0 10px rgba(0,0,0,.3);
+    -moz-box-shadow: inset -10px 0 10px rgba(0,0,0,.3);
 
+    padding: 2em 1em;
     margin-left: -100%;
     height: 100%;
     width: 80%;
@@ -92,8 +98,17 @@ html, body, .main-wrapper, .main {
     -ms-transition: all 300ms ease-in-out;
 }
 
+.filters h3 {
+    color: #fcfcfc;
+}
+
+.filters .checkbox {
+    color: #ccc;
+}
+
 .subsection {
     background-color: #fff;
+    background-image: url('grey.png');
 
     position: absolute;
     top: 100%;
@@ -143,6 +158,8 @@ html, body, .main-wrapper, .main {
 @media (min-width: 60em) {
     .header {
         background-color: transparent;
+        box-shadow: none;
+        -moz-box-shadow: none;
         position: absolute;
     }
 
@@ -151,7 +168,12 @@ html, body, .main-wrapper, .main {
     }
 
     .profile {
-        float: none;
+        float: right;
+    }
+
+    .profile__pic.small {
+        width: 4em;
+        max-width: 4em;
     }
 
     .filters {
@@ -165,6 +187,29 @@ html, body, .main-wrapper, .main {
         float: left;
         margin: 0;
         width: 80%;
+    }
+
+    .subsection {
+        background-color: #fff;
+        background-image: url('grey.png');
+
+        position: absolute;
+        top: 100%;
+        z-index: 3;
+
+        padding: 4.15em 1em 1em 1em;
+        height: 100%;
+        width: 100%;
+
+        transition: all 300ms ease-in-out;
+        -webkit-transition: all 300ms ease-in-out;
+        -moz-transition: all 300ms ease-in-out;
+        -ms-transition: all 300ms ease-in-out;
+
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        -moz-transform: translateZ(0);
+        -ms-transform: translateZ(0);
     }
 }
 
@@ -190,6 +235,12 @@ html, body, .main-wrapper, .main {
     box-shadow: 0 1px 3px rgba(0,0,0,.3);
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.3);
     width: 100%;
+}
+
+.profile__pic.small {
+    border: 0;
+    width: 2em;
+    max-width: 2em;
 }
 
 .uibutton {
@@ -281,4 +332,29 @@ html, body, .main-wrapper, .main {
 
     background-color: rgba(255,255,255, 0.9);
     text-align: center;
+}
+
+.search-box {
+    font-size: 0;
+}
+
+.search-box .prefix {
+    display: inline-block;
+    font-size: 16px;
+    width: 15%;
+}
+
+.search-box input[type="search"] {
+    display: inline-block;
+    font-size: 16px;
+    width: 85%;
+}
+
+.checkbox {
+    font-size: 1.1em;
+    margin-bottom: .6em;
+}
+
+.checkbox input[type="checkbox"] {
+    margin-bottom: 3px;
 }
