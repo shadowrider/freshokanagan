@@ -23,10 +23,8 @@ facebook.login = function () {
     Parse.FacebookUtils.logIn(null, {
         success: function(user) {
             if (!user.existed()) {
-                alert("User signed up and logged in through Facebook!");
                 facebook.get_data();
             } else {
-                alert("User logged in through Facebook!");
                 facebook.get_data();
             }
         },
@@ -36,11 +34,10 @@ facebook.login = function () {
     });
 };
 
-facebook.get_data = function () {
+facebook.get_data = function (callback) {
    var facebook_data = {};
    FB.api('/me', function(response) {
-       facebook_data.name = response.name;
-       facebook_data.username = response.username;
-       facebook_data.img_url = 'http://graph.facebook.com/' + response.username + '/picture'
+       response.img_url = 'http://graph.facebook.com/' + response.username + '/picture'
+       callback(response);
    });
 };

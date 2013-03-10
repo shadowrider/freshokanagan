@@ -46,7 +46,7 @@
       <header class="header">
           <button class="small button show-filters"><span class="icon-magnifying-glass"></span></button>
 
-          <button class="small button log-in">Log In</button>
+          <button class="small button profile">Log In</button>
       </header>
       <div class="main">
           <section class="filters" role="complementary">
@@ -61,26 +61,33 @@
   </div>
   <div class="subsection">
       <div class="header">
-          <button class="small button log-in">Close</button>
+          <button class="small button profile">Close</button>
       </div>
-      <div>
+      <div class="relative">
           <form>
-              <legend>Setup your food stand!</legend>
+              <h3>Set up your food stand!</h3>
               <div class="profile__pic-wrap">
                   <img class="profile__pic" src="http://placekitten.com/300/300">
               </div>
               <div class="profile__name">
-                  <p>Myroslav</p>
-                  <p>Pomazan</p>
+                  <p class="profile__fname">Myroslav</p>
+                  <p class="profile__lname">Pomazan</p>
               </div>
-              <div>
+              <label>Company Name</label>
+              <input type="text" placeholder="Tomatho Co.">
+              <p>
                   <label>Pictures</label>
-              </div>
+                  <img src="http://placekitten.com/50/50">
+                  <img src="http://placekitten.com/50/50">
+                  <img src="http://placekitten.com/50/50">
+                  <img src="http://placekitten.com/50/50">
+              </p>
               <div>
                   <label>What are you selling?</label>
                   <textarea></textarea>
               </div>
           </form>
+
       </div>
   </div>
 
@@ -93,9 +100,24 @@
             $('html').toggleClass('menu-open');
         });
 
-        $('.log-in').on('click', function(e) {
+        $('.profile').on('click', function(e) {
+            if(!Parse.User.current()) {
+                $('.subsection').append('<div class="facebook-login">' +
+                        '<button class="uibutton confirm log-in">Log In with Facebook</button>' +
+                        '</div>');
+            } else {
+
+            }
             $('html').toggleClass('sub-open');
-            facebook.login();
+        });
+
+        $('.log-in').on('click', function(e) {
+            facebook.login(function(data) {
+                $('.facebook-login').remove();
+                $('.profile__pic').attr('src', data.img_url);
+                $('.profile__fname').text(data.first_name);
+                $('.profile__lname').text(data.last_name);
+            });
         });
 
         var addMarkersOnTheMap = function(locations) {
