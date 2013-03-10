@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Fresh Okanagan</title>
+  <meta name="description" content="Fresh Okanagan">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+  <link rel=STYLESHEET href="css/normalize.css">
+  <link rel=STYLESHEET href="css/foundation.min.css">
+  <link rel=STYLESHEET href="css/style.css">
+  <link rel=STYLESHEET href="css/app.css">
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="http://www.parsecdn.com/js/parse-1.2.2.min.js"></script>
+  <script src="scripts/models.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="vendor/fastclick/fastclick.js"></script>
+  <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvjmMxm6ATH92dAC_L60M13_u8AHbi2D8&sensor=false">
+  </script>
+</head>
+
+<body>
+  <div class="main-wrapper">
+      <header class="header">
+          <button class="small button show-filters"><span class="icon-magnifying-glass"></span></button>
+
+          <button class="small button log-in">Log In</button>
+      </header>
+      <div class="main">
+          <section class="filters" role="complementary">
+            <form>
+
+            </form>
+          </section>
+          <section class="map-area" role="map">
+              <div id="map"></div>
+              <button class="add-place"><span class="icon-plus"></span></button>
+          </section>
+      </div>
+  </div>
+
+  <script type="text/javascript">
+    Parse.initialize("S8glxzOcLDwTgXQyfUZyg4Rm4znbNmBxzSbfHgpI", "LPS4XPWUjfIcNRgpfxoqbkWqybyW9Odfs205mwbn");
+
+    (function() {
+        $('.show-filters').on('click', function(e) {
+            $('html').toggleClass('menu-open');
+        });
+
+        var mapOptions = {
+            center: new google.maps.LatLng(49.883611, -119.493333),
+            zoom: 12,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false
+        };
+
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position){
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                var coords = new google.maps.LatLng(latitude, longitude);
+
+                var marker = new google.maps.Marker({
+                    position: coords,
+                    map: map,
+                    title: "Your current location!"
+                });
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<h4>Here I am!</h4>'
+                });
+
+                google.maps.event.addListener(marker, 'click', function() {
+                    infowindow.open(map, marker);
+                });
+            });
+        }
+
+        var addMarkersOnTheMap = function(locations) {
+            locations.forEach(function(location) {
+                new google.maps.Marker({
+                    position: location.position,
+                    animation: google.maps.Animation.DROP,
+                    map: map,
+                    title: "location.name"
+                });
+            });
+        };
+
+        window.addEventListener('load', function() {
+            new FastClick(document.body);
+        }, false);
+    })();
+  </script>
+  <script type="text/javascript"> // Harley's don't TOUCH!
+      $(document).ready(function(){
+          col.MapLocation.fetch({
+              success: function (data) {
+                  console.log(data); // #DEV
+                  console.log(data.models[data.length-1].attributes); // #DEV
+              }
+          });
+
+//        col.MapLocation.create(
+//            { lat: 98, long: 74, city: 'Vancouver',  }
+//        );
+
+      });
+  </script>
+</body>
+
+</html>
