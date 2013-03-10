@@ -22,7 +22,7 @@ facebook = {};
             $('.profile__lname').text(data.last_name);
             $('.profile').off('click').on('click', function(e) {
                 if($(this).hasClass('success')){
-                    api.save_user_data($('.selling').val());
+                  api.save_user_data($('.selling').val(), $('.user-type .active').data('type'));
                 }
                 $('html').toggleClass('sub-open');
             });
@@ -56,7 +56,7 @@ facebook.login = function (callback) {
             console.log(data); // #DEV
             $('.profile').off('click').on('click', function(e) {
                 if($(this).hasClass('success')){
-                    api.save_user_data($('.selling').val());
+                    api.save_user_data($('.selling').val(), $('.user-type .active').data('type'));
                 }
               $('html').toggleClass('sub-open');
             });
