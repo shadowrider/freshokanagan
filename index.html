@@ -103,6 +103,7 @@
         $('.profile').on('click', function(e) {
             if(!Parse.User.current()) {
                 $('.subsection').append('<div class="facebook-login">' +
+                        '<h4>Join local </h4>' +
                         '<button class="uibutton confirm log-in">Log In with Facebook</button>' +
                         '</div>');
             } else {
@@ -110,6 +111,13 @@
             }
             $('html').toggleClass('sub-open');
         });
+
+        if(Parse.User.current()) {
+            facebook.get_data(function(data) {
+                $('.main-wrapper .profile').remove();
+                $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src=""></span>');
+            });
+        }
 
         $('.log-in').on('click', function(e) {
             facebook.login(function(data) {
@@ -181,6 +189,20 @@
         }, false);
     })();
   </script>
+    <script>
+        var reader = new FileReader();
+        var self = this;
+
+        reader.onload = (function(f) {
+            return function(e) {
+                self.set({filename: f.name});
+                self.set({data: e.target.result});
+                if (_.isFunction(callback)) callback(self);
+            };
+        })(file);
+
+        reader.readAsDataURL(file);
+    </script>
 </body>
 
 </html>

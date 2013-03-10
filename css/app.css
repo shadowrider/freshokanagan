@@ -17,6 +17,11 @@ html, body, .main-wrapper, .main {
 
     padding: .625em;
     width: 100%;
+
+    transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+    -moz-transition: all 300ms ease-in-out;
+    -ms-transition: all 300ms ease-in-out;
 }
 
 .header > .button {
@@ -113,6 +118,10 @@ html, body, .main-wrapper, .main {
     margin-right: -80%;
 }
 
+.menu-open .header {
+    left: 80%;
+}
+
 .menu-open .filters {
     margin-left: 0;
 }
@@ -133,14 +142,15 @@ html, body, .main-wrapper, .main {
 
 @media (min-width: 60em) {
     .header {
-        position: relative;
+        background-color: transparent;
+        position: absolute;
     }
 
     .show-filters {
         display: none;
     }
 
-    .log-in {
+    .profile {
         float: none;
     }
 
