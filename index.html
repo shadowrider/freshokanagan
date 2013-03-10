@@ -12,25 +12,26 @@
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="http://www.parsecdn.com/js/parse-1.2.2.min.js"></script>
+  <script src="scripts/models.js"></script>
+  <script src="scripts/api.js"></script>
 </head>
 
 <body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        col.MapLocation.fetch({
+            success: function (data) {
+                console.log(data); // #DEV
+                console.log(data.models[data.length-1].attributes); // #DEV
+            }
+        });
 
+//        col.MapLocation.create(
+//            { lat: 98, long: 74, city: 'Vancouver',  }
+//        );
 
-  <script type="text/javascript">
-    Parse.initialize("S8glxzOcLDwTgXQyfUZyg4Rm4znbNmBxzSbfHgpI", "LPS4XPWUjfIcNRgpfxoqbkWqybyW9Odfs205mwbn");
-    
-    var TestObject = Parse.Object.extend("TestObject");
-    var testObject = new TestObject();
-      testObject.save({foo: "bar"}, {
-      success: function(object) {
-        $(".success").show();
-      },
-      error: function(model, error) {
-        $(".error").show();
-      }
     });
-  </script>
+</script>
 </body>
 
 </html>
