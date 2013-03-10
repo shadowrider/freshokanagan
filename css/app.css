@@ -1,0 +1,132 @@
+html, body, .main-wrapper, .main {
+    height: 100%;
+}
+
+.main-wrapper {
+    position: relative;
+}
+
+.header {
+    background-color: rgba(255,255,255, .75);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    padding: .625em;
+    width: 100%;
+}
+
+.header > .button {
+    margin-bottom: 0;
+}
+
+.show-filters {
+    float: left;
+}
+
+.log-in {
+    float: right;
+}
+
+.main {
+    overflow: hidden;
+}
+
+.add-place {
+    border-radius: 50%;
+    border: 0;
+
+    display: none;
+    height: 3em;
+    width: 3em;
+    margin-bottom: 0;
+
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+
+    background-color: #2795b6;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+#map img {
+    max-width: none;
+}
+
+.map-area {
+    height: 100%;
+    width: 100%;
+
+    float: right;
+
+    transition: all 300ms;
+    -webkit-transition: all 300ms;
+    -moz-transition: all 300ms;
+    -ms-transition: all 300ms;
+}
+
+.filters {
+    background-color: #777;
+
+    margin-left: -100%;
+    height: 100%;
+    width: 80%;
+
+    float: left;
+
+    transition: all 300ms;
+    -webkit-transition: all 300ms;
+    -moz-transition: all 300ms;
+    -ms-transition: all 300ms;
+}
+
+.menu-open .map-area {
+    margin-right: -80%;
+}
+
+.menu-open .filters {
+    margin-left: 0;
+}
+
+@media (min-width: 30em) {
+    .filters {
+        width: 40%;
+    }
+
+    .menu-open .map-area {
+        margin-right: -40%;
+    }
+}
+
+@media (min-width: 60em) {
+    .header {
+        position: relative;
+    }
+
+    .show-filters {
+        display: none;
+    }
+
+    .log-in {
+        float: none;
+    }
+
+    .filters {
+        float: left;
+
+        margin: 0;
+        width: 20%;
+    }
+
+    .map-area {
+        float: left;
+        margin: 0;
+        width: 80%;
+    }
+}
