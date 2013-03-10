@@ -12,6 +12,7 @@ facebook = {};
       FB.getLoginStatus(function(response) {
         if(response.status === 'connected') {
           facebook.get_data(function(data) {
+
             $('.facebook-login').remove();
             $('.main-wrapper .profile').remove();
             $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
@@ -20,6 +21,9 @@ facebook = {};
             $('.profile__fname').text(data.first_name);
             $('.profile__lname').text(data.last_name);
             $('.profile').off('click').on('click', function(e) {
+                if($(this).hasClass('success')){
+                    api.save_user_data($('.selling').val());
+                }
                 $('html').toggleClass('sub-open');
             });
           });
@@ -48,7 +52,12 @@ facebook.login = function (callback) {
             $('.profile__pic').attr('src', data.img_url);
             $('.profile__fname').text(data.first_name);
             $('.profile__lname').text(data.last_name);
+            $('.selling').val(data.selling)
+            console.log(data); // #DEV
             $('.profile').off('click').on('click', function(e) {
+                if($(this).hasClass('success')){
+                    api.save_user_data($('.selling').val());
+                }
               $('html').toggleClass('sub-open');
             });
         });
@@ -63,6 +72,7 @@ facebook.login = function (callback) {
       $('.main-wrapper .profile').remove();
       $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
       $('.subsection .profile').addClass('success').text('Save');
+
       $('.profile__pic').attr('src', data.img_url);
       $('.profile__fname').text(data.first_name);
       $('.profile__lname').text(data.last_name);
