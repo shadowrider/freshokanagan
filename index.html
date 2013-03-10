@@ -34,6 +34,7 @@
   <script src="http://www.parsecdn.com/js/parse-1.2.2.min.js"></script>
   <script src="scripts/models.js"></script>
   <script src="scripts/api.js"></script>
+  <script src="scripts/facebook_init.js"></script>
   <script src="vendor/fastclick/fastclick.js"></script>
   <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvjmMxm6ATH92dAC_L60M13_u8AHbi2D8&sensor=false">
@@ -94,6 +95,7 @@
 
         $('.log-in').on('click', function(e) {
             $('html').toggleClass('sub-open');
+            facebook.login();
         });
 
         var addMarkersOnTheMap = function(locations) {
