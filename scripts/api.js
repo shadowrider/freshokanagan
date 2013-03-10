@@ -5,7 +5,7 @@ api.save_user_data = function( selling_text, user_type ){
     var user = Parse.User.current();
     var isConsumer = user_type === 'consumer';
     user.set("selling", selling_text );
-    user.set("type", isConsumer);
+    user.set("isConsumer", isConsumer);
     user.save();
 };
 

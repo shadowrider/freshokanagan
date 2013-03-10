@@ -130,7 +130,7 @@
                     $('.main-wrapper .profile').remove();
                     $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
                     $('.subsection .profile').addClass('success').text('Save');
-                    //$('.add-place').show();
+                    $('.add-place').show();
                     $('.profile__pic').attr('src', data.img_url);
                     $('.profile__fname').text(data.first_name);
                     $('.profile__lname').text(data.last_name);
@@ -149,9 +149,16 @@
                     map: map
                 });
 
+                var content = "";
+                if(location.get('photo')) {
+                    content = '<div class="profile__pic-wrap">' +
+                '<img class="profile__pic" src="'+ location.get('photo')+'">' +
+                '</div>';
+                }
+                var content = '<h5>'+ location.get('name') +'</h5>' +
+                        '<p>'+ location.get('description') + '</p>';
                 google.maps.event.addListener(marker, 'click', function() {
-                    infowindow.setContent('<h5>'+ location.get('name') +'</h5>' +
-                            '<p>'+ location.get('description') + '</p>');
+                    infowindow.setContent(content);
                     infowindow.open(map, marker);
                 });
             });
@@ -182,20 +189,62 @@
         $('.add-place').on('click', function(e) {
             if (!userMarker.getMap() && navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position){
+                    var user = Parse.User.current();
                     var latitude = position.coords.latitude;
                     var longitude = position.coords.longitude;
                     var coords = new google.maps.LatLng(latitude, longitude);
 
-                    var infowindow = new google.maps.InfoWindow({
-                        content: '<h4>Here I am!</h4>'
-                    });
+                    console.log(user);
+                    if(user.get('pin')) {
+                        var query = new Parse.Query(MapLocation);
+                        query.get(user.get('pin'), {
+                            success: function(location) {
+                                location.destroy();
+                                user.set('pin', null);
+                                user.save();
+                                console.log('location has died');
+                            },
+                            error: function(object, error) {
+                                user.set('pin', null);
+                                user.save();
+                                console.log('could not find it');
+                            }
+                        });
+                    } else {
+                        var sss = {
+                            name:           user.get('name'),
+                            description:    user.get('selling'),
+                            photo:          user.get('profile_pic'),
+                            city:           'Lumby, BC',
+                            address:        '371 Trinity Valley Road',
+                            phone:          '250.309.9518',
+                            email:          'info@cheshirepark.ca',
+                            website:        '',
+                            lat:            latitude,
+                            long:           longitude
+                        };
 
-                    userMarker.setPosition(coords);
-                    userMarker.setMap(map);
+                        var infowindow = new google.maps.InfoWindow({
+                            content: '<div class="profile__pic-wrap">' +
+                                    '<img class="profile__pic" src="'+ user.get('profile_pic')+'">' +
+                                '</div><h3>'+ user.get('name')+'</h3>'+
+                                    '<p>'+ user.get('selling')+'</p>'
+                        });
 
-                    google.maps.event.addListener(userMarker, 'click', function() {
-                        infowindow.open(map, userMarker);
-                    });
+                        var pin = col.MapLocation.create(sss, {
+                            success: function(model) {
+                                user.set('pin', model.id);
+                                user.save();
+                            }
+                        });
+
+                        userMarker.setPosition(coords);
+                        userMarker.setMap(map);
+
+                        google.maps.event.addListener(userMarker, 'click', function() {
+                            infowindow.open(map, userMarker);
+                        });
+                    }
                 });
             } else {
                 userMarker.setMap(null);

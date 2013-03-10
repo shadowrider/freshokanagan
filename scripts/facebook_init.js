@@ -23,10 +23,17 @@ facebook = {};
             $('.profile').off('click').on('click', function(e) {
                 if($(this).hasClass('success')){
                   api.save_user_data($('.selling').val(), $('.user-type .active').data('type'));
+                  if($('.user-type .active').data('type') !== 'consumer') {
+                    $('.add-place').show();
+                  } else {
+                    $('.add-place').hide();
+                  }
                 }
                 $('html').toggleClass('sub-open');
             });
             var user = Parse.User.current();
+            user.set('profile_pic', data.img_url);
+            user.set('name', data.first_name + ' ' + data.last_name);
             if(!user.get('isConsumer')) {
               $('.add-place').show();
             }
@@ -60,10 +67,17 @@ facebook.login = function (callback) {
             $('.profile').off('click').on('click', function(e) {
                 if($(this).hasClass('success')){
                     api.save_user_data($('.selling').val(), $('.user-type .active').data('type'));
+                    if($('.user-type .active').data('type') !== 'consumer') {
+                      $('.add-place').show();
+                    } else {
+                      $('.add-place').hide();
+                    }
                 }
               $('html').toggleClass('sub-open');
             });
           var user = Parse.User.current();
+          user.set('profile_pic', data.img_url);
+          user.set('name', data.first_name + ' ' + data.last_name);
           if(!user.get('isConsumer')) {
             $('.add-place').show();
           }
