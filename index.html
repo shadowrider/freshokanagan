@@ -52,11 +52,10 @@
               <label for="checkbox3" class="checkbox"><input type="checkbox" id="checkbox3"><span class="custom checkbox"></span> Fruits</label>
               <label for="checkbox4" class="checkbox"><input type="checkbox" id="checkbox4"><span class="custom checkbox"></span> Crafts</label>
               <label for="checkbox5" class="checkbox"><input type="checkbox" id="checkbox5"><span class="custom checkbox"></span> Miscellaneous</label>
-              <img src="img/Pin.png">
           </section>
           <section class="map-area" role="map">
               <div id="map"></div>
-              <button class="add-place"><span class="icon-plus"></span></button>
+              <button class="add-place"><span class="icon-map-pin-fill"></span></button>
           </section>
       </div>
 
@@ -137,6 +136,16 @@
                     $('.profile__lname').text(data.last_name);
                 });
             });
+
+        $('.add-place').on('click', function(e) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position){
+
+                });
+            } else {
+                alert("Your browser doesn't support geolocation")
+            }
+        });
 
         var addMarkersOnTheMap = function(locations) {
             var infowindow = new google.maps.InfoWindow({});
