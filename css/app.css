@@ -377,3 +377,16 @@ html, body, .main-wrapper, .main {
 .checkbox input[type="checkbox"] {
     margin-bottom: 3px;
 }
+
+.upload-img {
+    margin: 0 auto;
+    border: 3px dashed lightgray;
+    background-color: whiteSmoke;
+    color: lightgray;
+    width: 12em;
+    height: 12em;
+    padding-top: 5em;
+    text-align: center;
+    border-radius: 15%;
+    margin-bottom: 1em;
+}
