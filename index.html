@@ -98,6 +98,7 @@
   </script>
   <script type="text/javascript"> // Harley's don't TOUCH!
       $(document).ready(function(){
+          // fetch data
           col.MapLocation.fetch({
               success: function (data) {
                   console.log(data); // #DEV
@@ -106,10 +107,6 @@
                   }
               }
           });
-//        col.MapLocation.create(
-//            { lat: 98, long: 74, city: 'Vancouver',  }
-//        );
-
       });
   </script>
 </body>
