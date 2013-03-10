@@ -15,6 +15,7 @@
   <script src="http://www.parsecdn.com/js/parse-1.2.2.min.js"></script>
   <script src="scripts/models.js"></script>
   <script src="scripts/api.js"></script>
+  <script src="scripts/facebook_init.js"></script>
   <script src="vendor/fastclick/fastclick.js"></script>
   <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvjmMxm6ATH92dAC_L60M13_u8AHbi2D8&sensor=false">
@@ -96,18 +97,9 @@
         }, false);
     })();
   </script>
+
   <script type="text/javascript"> // Harley's don't TOUCH!
-      $(document).ready(function(){
-          // fetch data
-          col.MapLocation.fetch({
-              success: function (data) {
-                  console.log(data); // #DEV
-                  if(data.length > 0){
-                        console.log(data.models[data.length-1].attributes); // #DEV
-                  }
-              }
-          });
-      });
+      $('.log-in').on('click', facebook.login );
   </script>
 </body>
 
