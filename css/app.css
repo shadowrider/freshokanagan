@@ -377,3 +377,9 @@ html, body, .main-wrapper, .main {
 .checkbox input[type="checkbox"] {
     margin-bottom: 3px;
 }
+
+button.active {
+    background-color: #2284A1;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+}

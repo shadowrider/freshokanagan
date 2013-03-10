@@ -26,6 +26,10 @@ facebook = {};
                 }
                 $('html').toggleClass('sub-open');
             });
+            var user = Parse.User.current();
+            if(!user.get('isConsumer')) {
+              $('.add-place').show();
+            }
           });
         }
       }, true);
@@ -53,13 +57,16 @@ facebook.login = function (callback) {
             $('.profile__fname').text(data.first_name);
             $('.profile__lname').text(data.last_name);
             $('.selling').val(data.selling)
-            console.log(data); // #DEV
             $('.profile').off('click').on('click', function(e) {
                 if($(this).hasClass('success')){
                     api.save_user_data($('.selling').val(), $('.user-type .active').data('type'));
                 }
               $('html').toggleClass('sub-open');
             });
+          var user = Parse.User.current();
+          if(!user.get('isConsumer')) {
+            $('.add-place').show();
+          }
         });
       },
       error: function(user, error) {
