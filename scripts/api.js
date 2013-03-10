@@ -1,6 +1,12 @@
 api = {};
 
 
+api.save_user_data = function( selling_text ){
+    var user = Parse.User.current();
+    user.set("selling", selling_text );
+    user.save();
+};
+
 // ADMIN ##########################################################
 api.destroy_locations = function () {
     col.MapLocation.fetch({
