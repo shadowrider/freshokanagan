@@ -91,3 +91,46 @@ api.initial_locations = function () {
         );
     }
 };
+
+// This is for manual login #DO NOT USE
+api.login = function ( options ) {
+    /*      username:
+     *       password:
+     *       email:
+     * */
+    Parse.User.logIn(
+        options.username,
+        options.password,
+        {
+            success: function (user) {
+                console.log('user logged in: '); // #DEV
+                console.log(user); // #DEV
+            }
+        }
+    );
+};
+
+// This is for manual signup #DO NOT USE
+api.signup = function( options ){
+    /*      username:
+     *       password:
+     *       email:
+     * */
+    var user = new Parse.User();
+    user.set("username", options.username);
+    user.set("password", options.password);
+    user.set("email", options.email);
+
+    // other fields can be set just like with Parse.Object
+    //    user.set("phone", "415-392-0202");
+
+    user.signUp(null, {
+        success: function(user) {
+            // Hooray! Let them use the app now.
+        },
+        error: function(user, error) {
+            // Show the error message somewhere and let the user try again.
+            alert("Error: " + error.code + " " + error.message);
+        }
+    });
+};
