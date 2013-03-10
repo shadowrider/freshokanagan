@@ -45,6 +45,7 @@ html, body, .main-wrapper, .main {
 .add-place {
     border-radius: 50%;
     border: 5px solid #fff;
+    display: none;
 
     height: 2.5em;
     width: 2.5em;
@@ -72,6 +73,8 @@ html, body, .main-wrapper, .main {
 }
 
 .map-area {
+    position: relative;
+
     height: 100%;
     width: 100%;
 
@@ -154,6 +157,7 @@ html, body, .main-wrapper, .main {
     border: 5px solid #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,.3);
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    max-width: 5em;
     width: 100%;
 }
 
@@ -161,6 +165,19 @@ html, body, .main-wrapper, .main {
     border: 0;
     width: 2em;
     max-width: 2em;
+}
+
+.facebook-login {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    padding-top: 50%;
+    height: 100%;
+    width: 100%;
+
+    background-color: rgba(255,255,255, 0.9);
+    text-align: center;
 }
 
 @media (min-width: 30em) {
@@ -211,6 +228,10 @@ html, body, .main-wrapper, .main {
         width: 80%;
     }
 
+    .facebook-login {
+        padding-top: 25%;
+    }
+
     .subsection {
         background-color: #fff;
         background-image: url('grey.png');
@@ -237,6 +258,7 @@ html, body, .main-wrapper, .main {
 
 .profile__pic-wrap {
     float: left;
+    max-width: 4em;
     width: 28%;
 }
 
@@ -329,19 +351,6 @@ html, body, .main-wrapper, .main {
 
 .relative {
     position: relative;
-}
-
-.facebook-login {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    padding-top: 50%;
-    height: 100%;
-    width: 100%;
-
-    background-color: rgba(255,255,255, 0.9);
-    text-align: center;
 }
 
 .search-box {

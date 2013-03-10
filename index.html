@@ -55,7 +55,7 @@
           </section>
           <section class="map-area" role="map">
               <div id="map"></div>
-              <button class="add-place"><span class="icon-map-pin-fill"></span></button>
+              <button class="add-place"><span class="icon-map-pin-stroke"></span></button>
           </section>
       </div>
 
@@ -74,7 +74,7 @@
                   <p class="profile__fname">Myroslav</p>
                   <p class="profile__lname">Pomazan</p>
               </div>
-              <ul class="button-group">
+              <ul class="button-group" style="clear: left;">
                   <li><a href="#" class="small button">Consumer</a></li>
                   <li><a href="#" class="small button">Producer</a></li>
               </ul>
@@ -131,21 +131,14 @@
                     $('.main-wrapper .profile').remove();
                     $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
                     $('.subsection .profile').addClass('success').text('Save');
+                    //$('.add-place').show();
                     $('.profile__pic').attr('src', data.img_url);
                     $('.profile__fname').text(data.first_name);
                     $('.profile__lname').text(data.last_name);
                 });
             });
 
-        $('.add-place').on('click', function(e) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position){
 
-                });
-            } else {
-                alert("Your browser doesn't support geolocation")
-            }
-        });
 
         var addMarkersOnTheMap = function(locations) {
             var infowindow = new google.maps.InfoWindow({});
@@ -175,37 +168,46 @@
 
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position){
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-                var coords = new google.maps.LatLng(latitude, longitude);
-
-                var marker = new google.maps.Marker({
-                    position: coords,
-                    map: map,
-                    title: "Your current location!"
-                });
-
-                var infowindow = new google.maps.InfoWindow({
-                    content: '<h4>Here I am!</h4>'
-                });
-
-                google.maps.event.addListener(marker, 'click', function() {
-                    infowindow.open(map, marker);
-                });
-            });
-        }
-
         col.MapLocation.fetch({
             success: function (data) {
                 addMarkersOnTheMap(data);
             }
         });
 
+        userMarker = new google.maps.Marker({
+            title: "Your current location!",
+            icon: 'img/car.png',
+            animation: google.maps.Animation.DROP
+        });
+
+        $('.add-place').on('click', function(e) {
+            if (!userMarker.getMap() && navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position){
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    var coords = new google.maps.LatLng(latitude, longitude);
+
+                    var infowindow = new google.maps.InfoWindow({
+                        content: '<h4>Here I am!</h4>'
+                    });
+
+                    userMarker.setPosition(coords);
+                    userMarker.setMap(map);
+
+                    google.maps.event.addListener(userMarker, 'click', function() {
+                        infowindow.open(map, userMarker);
+                    });
+                });
+            } else {
+                userMarker.setMap(null);
+            }
+        });
+
         window.addEventListener('load', function() {
             new FastClick(document.body);
         }, false);
+
+
     })();
   </script>
   <script src="scripts/facebook_init.js"></script>
