@@ -98,15 +98,12 @@
     })();
   </script>
 
+
+  // USER LOGIN ###############################################
   <script type="text/javascript"> // Harley's don't TOUCH!
-      var currentUser = Parse.User.current();
-      if (currentUser) {
-          console.log('logged in'); // #DEV
-      } else {
-         console.log('not logged in'); // #DEV
-      }
       $('.log-in').on('click', facebook.login);
   </script>
+  // ##########################################################
 </body>
 
 </html>

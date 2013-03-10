@@ -1,5 +1,7 @@
 api = {};
 
+
+// ADMIN ##########################################################
 api.destroy_locations = function () {
     col.MapLocation.fetch({
         success: function (data) {
@@ -91,6 +93,8 @@ api.initial_locations = function () {
         );
     }
 };
+
+// #DEPRICATED #####################################################
 
 // This is for manual login #DO NOT USE
 api.login = function ( options ) {
