@@ -101,10 +101,11 @@
           col.MapLocation.fetch({
               success: function (data) {
                   console.log(data); // #DEV
-                  console.log(data.models[data.length-1].attributes); // #DEV
+                  if(data.length > 0){
+                        console.log(data.models[data.length-1].attributes); // #DEV
+                  }
               }
           });
-
 //        col.MapLocation.create(
 //            { lat: 98, long: 74, city: 'Vancouver',  }
 //        );
