@@ -87,7 +87,7 @@
               </p>
               <div>
                   <label>What are you selling?</label>
-                  <textarea></textarea>
+                  <textarea class="selling">Some description here</textarea>
               </div>
           </form>
 
@@ -112,6 +112,7 @@
                         '</div>');
                 $('.log-in').off('click').on('click', function(e) {
                     facebook.login(function(data) {
+
                         $('.facebook-login').remove();
                         $('.main-wrapper .profile').remove();
                         $('.main-wrapper > .header').append('<span class="profile"><img class="profile__pic small" src="'+data.img_url+'"></span>');
@@ -119,6 +120,13 @@
                         $('.profile__pic').attr('src', data.img_url);
                         $('.profile__fname').text(data.first_name);
                         $('.profile__lname').text(data.last_name);
+                        $('.profile').off('click').on('click', function(e) {
+                            if($(this).hasClass('success')){
+                                console.log($('.selling').val()); // #DEV
+                                api.save_user_data($('.selling').val());
+                            }
+                            $('html').toggleClass('sub-open');
+                        });
                     });
                 });
             }
